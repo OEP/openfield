@@ -12,8 +12,9 @@ CPPS = $(shell find $(SRC) -name *.cpp)
 DEPS = $(CPPS:.cpp=.d)
 OBJS = $(CPPS:.cpp=.o)
 TEST_CPPS = $(shell find $(TEST) -name *.cpp)
-TEST_DEPS = $(CPPS:.cpp=.d)
-TEST_OBJS = $(CPPS:.cpp=.o)
+TEST_DEPS = $(TEST_CPPS:.cpp=.d)
+TEST_OBJS = $(TEST_CPPS:.cpp=.o)
+TEST_EXEC = $(LIBNAME)_test
 
 CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++
 
@@ -21,20 +22,26 @@ all: lib unittest
 
 lib: $(SO)
 
-unittest:
+unittest: $(TEST_EXEC)
+
+print:
+	@echo $(TEST_OBJS)
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
 	rm -f  $(SO) $(SO).$(FULL_VERSION)
 
+$(TEST_EXEC): $(TEST_OBJS)
+	$(CXX) -o $@ $(TEST_OBJS) -lcppunit
+
 $(SO): $(OBJS)
 	$(CXX) -shared -Wl,-soname,$(SO).$(MAJOR_VERSION) -o $(SO).$(FULL_VERSION) $(OBJS)
 	ln -sf $(SO).$(FULL_VERSION) $@
 
-$(OBJS): %.o: %.cpp %.d
+$(OBJS) $(TEST_OBJS): %.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) -c -fPIC $< -o $@
 
-$(DEPS): %.d: %.cpp
+$(DEPS) $(TEST_DEPS): %.d: %.cpp
 	$(eval TMP := $(shell $(MKTEMP)))
 	@echo generating $@
 	@$(CXX) $(CXXFLAGS) -MM $< > $(TMP)
