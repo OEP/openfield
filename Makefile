@@ -48,4 +48,4 @@ $(DEPS) $(TEST_DEPS): %.d: %.cpp
 	@$(SED) 's,\($*\)\.o[ :]*,\1.o $@ : ,g' $(TMP)
 	@mv $(TMP) $@
 
-include $(DEPS)
+include $(DEPS) $(TEST_DEPS)
