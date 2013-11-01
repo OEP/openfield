@@ -1,5 +1,6 @@
 INC = inc
 SRC = src
+TEST = test
 LIBNAME = openfield
 MAJOR_VERSION = 1
 FULL_VERSION = 1.0.0
@@ -10,10 +11,17 @@ SO = lib$(LIBNAME).so
 CPPS = $(shell find $(SRC) -name *.cpp)
 DEPS = $(CPPS:.cpp=.d)
 OBJS = $(CPPS:.cpp=.o)
+TEST_CPPS = $(shell find $(TEST) -name *.cpp)
+TEST_DEPS = $(CPPS:.cpp=.d)
+TEST_OBJS = $(CPPS:.cpp=.o)
 
 CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++
 
-all: $(SO)
+all: lib unittest
+
+lib: $(SO)
+
+unittest:
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
