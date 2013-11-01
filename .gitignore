@@ -1,0 +1,7 @@
+*.d
+*.o
+*.so
+*.so.*
+*.sw*
+
+openfield_test
