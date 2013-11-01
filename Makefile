@@ -16,7 +16,7 @@ TEST_DEPS = $(TEST_CPPS:.cpp=.d)
 TEST_OBJS = $(TEST_CPPS:.cpp=.o)
 TEST_EXEC = $(LIBNAME)_test
 
-CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++
+CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++ -std=c++11
 
 all: lib unittest
 
