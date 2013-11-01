@@ -1,7 +1,8 @@
 INC = inc
 SRC = src
 LIB = libopenfield.so
-VERSION = 1.0
+MAJOR_VERSION = 1
+FULL_VERSION = 1.0.0
 MKTEMP = mktemp
 SED = sed -i'' -e
 
@@ -11,13 +12,17 @@ OBJS = $(CPPS:.cpp=.o)
 
 CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++
 
-all: $(OBJS)
+all: $(LIB)
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
 
+$(LIB): $(OBJS)
+	$(CXX) -shared -Wl,-soname,$(LIB).$(MAJOR_VERSION) -o $(LIB).$(FULL_VERSION) $(OBJS)
+	ln -s $(LIB).$(FULL_VERSION) $@
+
 $(OBJS): %.o: %.cpp %.d
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -c -fPIC $< -o $@
 
 $(DEPS): %.d: %.cpp
 	$(eval TMP := $(shell $(MKTEMP)))
