@@ -1,25 +1,27 @@
 INC = inc
 SRC = src
-LIB = libopenfield.so
+LIBNAME = openfield
 MAJOR_VERSION = 1
 FULL_VERSION = 1.0.0
 MKTEMP = mktemp
 SED = sed -i'' -e
 
+SO = lib$(LIBNAME).so
 CPPS = $(shell find $(SRC) -name *.cpp)
 DEPS = $(CPPS:.cpp=.d)
 OBJS = $(CPPS:.cpp=.o)
 
 CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++
 
-all: $(LIB)
+all: $(SO)
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
+	rm -f  $(SO) $(SO).$(FULL_VERSION)
 
-$(LIB): $(OBJS)
-	$(CXX) -shared -Wl,-soname,$(LIB).$(MAJOR_VERSION) -o $(LIB).$(FULL_VERSION) $(OBJS)
-	ln -s $(LIB).$(FULL_VERSION) $@
+$(SO): $(OBJS)
+	$(CXX) -shared -Wl,-soname,$(SO).$(MAJOR_VERSION) -o $(SO).$(FULL_VERSION) $(OBJS)
+	ln -sf $(SO).$(FULL_VERSION) $@
 
 $(OBJS): %.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) -c -fPIC $< -o $@
@@ -30,4 +32,5 @@ $(DEPS): %.d: %.cpp
 	@$(CXX) $(CXXFLAGS) -MM $< > $(TMP)
 	@$(SED) 's,\($*\)\.o[ :]*,\1.o $@ : ,g' $(TMP)
 	@mv $(TMP) $@
-	@rm -f $(TMP)
+
+include $(DEPS)
