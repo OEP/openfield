@@ -83,9 +83,8 @@ void Node::markChild(Node::size_type i) const {
 }
 
 void Node::markAttribute(const std::string& name) const {
-  std::map<std::string, std::string>::const_iterator it = mAttributes.find(name);
-  if(it == mAttributes.end()) {
-    throw AttributeError(name);
+  if(mAttributes.count(name) == 0) {
+    throw AttributeError(mName + "." + name);
   }
   mAttributesReferenced.insert(name);
 }

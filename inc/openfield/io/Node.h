@@ -59,7 +59,7 @@ public:
   //! Add an attribute, overwriting if it exists.
   template <typename T>
   void set(const std::string& name, const T& value) {
-    mAttributes[name] = boost::lexical_cast<T>(value);
+    mAttributes[name] = boost::lexical_cast<std::string>(value);
   }
 
   //! Add an attribute, throwing AttributeError if it already exists

@@ -73,17 +73,37 @@ void NodeTest::testStandardForm() {
 }
 
 void NodeTest::testErrors() {
+  // root node gets constructed as referenced
   Node t("t");
   CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
 
+  // unmarking has no effect on root node
   t.unmark();
   CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
 
+  // child nodes get constructed as unreferenced
   t.addChild("tchild");
   CPPUNIT_ASSERT_THROW(t.assertFullyReferenced(), openfield::UnreferencedNodeError);
 
-  CPPUNIT_ASSERT_THROW(t.get<int>("test"), openfield::AttributeError);
+  // getChild() causes child to become referenced
+  t.getChild(0);
+  CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
+
+  // test safe and unsafe interfaces of get()
   CPPUNIT_ASSERT_NO_THROW(t.get<int>("test", 1));
+  CPPUNIT_ASSERT_THROW(t.get<int>("test"), openfield::AttributeError);
+
+  // adding attributes twices throws AttributeError
+  CPPUNIT_ASSERT_NO_THROW(t.add<int>("test", 0));
+  CPPUNIT_ASSERT_THROW(t.add<int>("test", 0), openfield::AttributeError);
+
+  // attributes don't get added as referenced
+  CPPUNIT_ASSERT_THROW(t.assertFullyReferenced(), openfield::UnreferencedAttributeError);
+
+  // get() causes attributes to become referenced
+  CPPUNIT_ASSERT_NO_THROW(t.get<int>("test"));
+  CPPUNIT_ASSERT_NO_THROW(t.get<int>("test", 1));
+  CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(NodeTest);
