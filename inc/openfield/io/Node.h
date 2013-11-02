@@ -28,6 +28,9 @@ public:
   //! Add a child.
   Node* addChild(const std::string&);
 
+  //! Get name of node
+  const std::string& getName() const { return mName; }
+
   //! Const access to child
   const Node* getChild(size_type i) const { markChild(i); return mChildren[i]; }
 

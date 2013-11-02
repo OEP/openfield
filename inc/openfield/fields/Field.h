@@ -1,15 +1,20 @@
 #pragma once
 #include <openfield/Types.h>
 #include <memory>
+#include <map>
 
 namespace openfield {
+namespace io { class Node; }
 namespace fields {
 
 class BaseField {
 public:
-  typedef std::shared_ptr<BaseField> Ptr; 
+  typedef std::string Name;
+  typedef std::shared_ptr<BaseField> Ptr;
+  typedef BaseField::Ptr(*Factory)(const io::Node&);
 
   virtual ~BaseField() {}
+private:
 };
 
 template <typename EvalT, typename GradT>
