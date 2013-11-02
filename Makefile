@@ -29,6 +29,7 @@ print:
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
+	rm -rf $(TEST_DEPS) $(TEST_OBJS)
 	rm -f  $(SO) $(SO).$(FULL_VERSION)
 
 $(TEST_EXEC): $(TEST_OBJS)
