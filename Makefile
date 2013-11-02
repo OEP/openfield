@@ -3,11 +3,17 @@ SRC = src
 TEST = test
 LIBNAME = openfield
 MAJOR_VERSION = 1
-FULL_VERSION = 1.0.0
+MINOR_VERSION = 0
+PATCH_VERSION = 0
 MKTEMP = mktemp
 SED = sed -i'' -e
 
-SO = lib$(LIBNAME).so
+SO_BASE = lib$(LIBNAME).so
+SO_MAJOR = $(SO_BASE).$(MAJOR_VERSION)
+SO_MINOR = $(SO_MAJOR).$(MINOR_VERSION)
+SO_PATCH = $(SO_MINOR).$(PATCH_VERSION)
+SO_LINKS = $(SO_MAJOR) $(SO_MINOR) $(SO_BASE)
+SO = $(SO_PATCH)
 CPPS = $(shell find $(SRC) -name *.cpp)
 DEPS = $(CPPS:.cpp=.d)
 OBJS = $(CPPS:.cpp=.o)
@@ -24,20 +30,17 @@ lib: $(SO)
 
 unittest: $(TEST_EXEC)
 
-print:
-	@echo $(TEST_OBJS)
-
 clean:
 	rm -rf $(DEPS) $(OBJS)
-	rm -rf $(TEST_DEPS) $(TEST_OBJS)
-	rm -f  $(SO) $(SO).$(FULL_VERSION)
+	rm -rf $(TEST_DEPS) $(TEST_OBJS) $(TEST_EXEC)
+	rm -f  $(SO) $(SO_LINKS)
 
 $(TEST_EXEC): $(TEST_OBJS)
 	$(CXX) -o $@ $(TEST_OBJS) -lcppunit
 
 $(SO): $(OBJS)
-	$(CXX) -shared -Wl,-soname,$(SO).$(MAJOR_VERSION) -o $(SO).$(FULL_VERSION) $(OBJS)
-	ln -sf $(SO).$(FULL_VERSION) $@
+	$(CXX) -shared -Wl,-soname,$(SO_MAJOR) -o $(SO) $(OBJS)
+	@for x in $(SO_LINKS); do echo making link $$x; ln -sf $(SO) $$x; done
 
 $(OBJS) $(TEST_OBJS): %.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) -c -fPIC $< -o $@
