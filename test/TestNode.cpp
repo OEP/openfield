@@ -73,8 +73,17 @@ void NodeTest::testStandardForm() {
 }
 
 void NodeTest::testErrors() {
-  root.unmark();
-  CPPUNIT_ASSERT_THROW(root.assertFullyReferenced(), openfield::UnreferencedNodeError);
+  Node t("t");
+  CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
+
+  t.unmark();
+  CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
+
+  t.addChild("tchild");
+  CPPUNIT_ASSERT_THROW(t.assertFullyReferenced(), openfield::UnreferencedNodeError);
+
+  CPPUNIT_ASSERT_THROW(t.get<int>("test"), openfield::AttributeError);
+  CPPUNIT_ASSERT_NO_THROW(t.get<int>("test", 1));
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(NodeTest);

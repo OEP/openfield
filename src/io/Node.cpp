@@ -39,7 +39,7 @@ Node::~Node() {
 
 Node* Node::addChild(const std::string& n) {
   mChildren.push_back(new Node(n, false));
-  return getChild(mChildren.size()-1);
+  return mChildren[mChildren.size()-1];
 }
 
 void Node::assertFullyReferenced() const {

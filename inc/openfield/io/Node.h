@@ -42,7 +42,7 @@ public:
       markAttribute(name);
       return boost::lexical_cast<T>(it->second);
     }
-    throw AttributeError(name);
+    throw AttributeError(mName + "." + name);
   }
   
   //! Retrieve an attribute.
@@ -55,6 +55,24 @@ public:
       return def;
     }
   }
+  
+  //! Add an attribute, overwriting if it exists.
+  template <typename T>
+  void set(const std::string& name, const T& value) {
+    mAttributes[name] = boost::lexical_cast<T>(value);
+  }
+
+  //! Add an attribute, throwing AttributeError if it already exists
+  template <typename T>
+  void add(const std::string& name, const T& value) {
+    if(has(name)) {
+      throw AttributeError(mName + "." + name);
+    }
+    set(name, value);
+  }
+
+  //! Returns true if node has given attribute.
+  bool has(const std::string& n) const { return mAttributes.count(n) == 1; }
        
   //! Returns count of children.
   size_type getChildrenCount() const { return mChildren.size(); }
