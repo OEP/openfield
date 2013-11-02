@@ -22,7 +22,7 @@ TEST_DEPS = $(TEST_CPPS:.cpp=.d)
 TEST_OBJS = $(TEST_CPPS:.cpp=.o)
 TEST_EXEC = $(LIBNAME)_test
 
-CXXFLAGS = -I$(INC) -Wall -Wextra -Weffc++ -std=c++11
+CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++11
 
 all: lib unittest
 
@@ -35,8 +35,8 @@ clean:
 	rm -rf $(TEST_DEPS) $(TEST_OBJS) $(TEST_EXEC)
 	rm -f  $(SO) $(SO_LINKS)
 
-$(TEST_EXEC): $(TEST_OBJS)
-	$(CXX) -o $@ $(TEST_OBJS) -lcppunit
+$(TEST_EXEC): $(TEST_OBJS) $(SO)
+	$(CXX) -o $@ $(TEST_OBJS) -lcppunit -L . -l$(LIBNAME)
 
 $(SO): $(OBJS)
 	$(CXX) -shared -Wl,-soname,$(SO_MAJOR) -o $(SO) $(OBJS)
