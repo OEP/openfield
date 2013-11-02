@@ -1,5 +1,5 @@
 #include <cppunit/extensions/HelperMacros.h>
-#include <openfield/Vec.h>
+#include <openfield/Types.h>
 
 class VectorTest : public CppUnit::TestCase {
   CPPUNIT_TEST_SUITE( VectorTest );
