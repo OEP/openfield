@@ -13,11 +13,14 @@ class Node {
 public:
   typedef unsigned long long size_type;
   Node();
+  Node(const Node&);
+  Node& operator=(const Node&);
+  ~Node();
 
-  Node& addChild();
+  Node* addChild();
 
-  const Node& getChild(size_type i) const { markChild(i); return mChildren[i]; }
-        Node& getChild(size_type i)       { markChild(i); return mChildren[i]; }
+  const Node* getChild(size_type i) const { markChild(i); return mChildren[i]; }
+        Node* getChild(size_type i)       { markChild(i); return mChildren[i]; }
 
   template <typename T>
   T get(const std::string& name) const {
@@ -42,7 +45,7 @@ public:
   size_type getChildrenCount() const { return mChildren.size(); }
 
 private:
-  std::vector<Node> mChildren;
+  std::vector<Node*> mChildren;
   std::map<std::string, std::string> mAttributes;
   mutable std::set<size_type> mChildrenReferenced;
   mutable std::set<std::string> mAttributesReferenced;
