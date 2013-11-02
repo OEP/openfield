@@ -4,17 +4,19 @@ using openfield::io::Node;
 class NodeTest : public CppUnit::TestCase {
   CPPUNIT_TEST_SUITE( NodeTest );
   CPPUNIT_TEST( testAddChild );
+  CPPUNIT_TEST( testErrors );
   CPPUNIT_TEST( testStandardForm );
   CPPUNIT_TEST_SUITE_END();
 
 public:
   NodeTest(): CppUnit::TestCase(),
-    root() {}
+    root("Root") {}
   
   void setUp();
   void tearDown();
 
   void testAddChild();
+  void testErrors();
   void testStandardForm();
 
 private:
@@ -27,13 +29,13 @@ private:
 };
 
 void NodeTest::setUp() {
-  root = openfield::io::Node();
-  Node *a = root.addChild();
-  Node *b = root.addChild();
-  a->addChild();
-  a->addChild();
-  b->addChild();
-  b->addChild();
+  root = openfield::io::Node("Root");
+  Node *a = root.addChild("A");
+  Node *b = root.addChild("B");
+  a->addChild("C");
+  a->addChild("D");
+  b->addChild("E");
+  b->addChild("F");
 }
 
 void NodeTest::tearDown() {
@@ -63,11 +65,16 @@ void NodeTest::testAddChild() {
 
 void NodeTest::testStandardForm() {
   Node a = root;
-  Node b;
+  Node b("B");
   b = root;
 
   NodeTest::assertSetUp(&a);
   NodeTest::assertSetUp(&b);
+}
+
+void NodeTest::testErrors() {
+  root.unmark();
+  CPPUNIT_ASSERT_THROW(root.assertFullyReferenced(), openfield::UnreferencedNodeError);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(NodeTest);

@@ -44,6 +44,8 @@ public: \
 
 OPENFIELD_EXCEPTION(AttributeError)
 OPENFIELD_EXCEPTION(IndexError)
+OPENFIELD_EXCEPTION(UnreferencedAttributeError)
+OPENFIELD_EXCEPTION(UnreferencedNodeError)
 
 #undef OPENFIELD_EXCEPTION
 
