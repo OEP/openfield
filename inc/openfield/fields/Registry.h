@@ -13,12 +13,17 @@ public:
     return instance;
   }
 
+  template <typename FieldT>
+  static void registerField() {
+    Registry::getInstance().registerField(FieldT::getTag(), FieldT::factory);
+  }
+
   void registerField(const BaseField::Name&, BaseField::Factory);
   void unregisterField(const BaseField::Name&);
 
   BaseField::Ptr create(const io::Node&) const;
 private:
-  Registry();
+  Registry(): mMap() {}
   Registry(const Registry&);
   Registry& operator=(const Registry&);
 
