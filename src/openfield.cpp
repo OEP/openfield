@@ -6,3 +6,8 @@ void openfield::initialize() {
 
   Registry::registerField<Sphere>();
 }
+
+void openfield::uninitialize() {
+  using namespace openfield::fields;
+  Registry::unregisterField<Sphere>();
+}
