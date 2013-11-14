@@ -24,6 +24,8 @@ TEST_EXEC = $(LIBNAME)_test
 
 CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++0x
 
+.PHONY: all lib testexec test
+
 all: lib testexec
 
 lib: $(SO)
