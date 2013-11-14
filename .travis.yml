@@ -1,4 +1,6 @@
 language: cpp
+install:
+  - sudo apt-get install libcppunit-dev
 compiler:
   - gcc
   - clang
