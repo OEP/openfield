@@ -22,7 +22,7 @@ TEST_DEPS = $(TEST_CPPS:.cpp=.d)
 TEST_OBJS = $(TEST_CPPS:.cpp=.o)
 TEST_EXEC = $(LIBNAME)_test
 
-CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++11
+CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++0x
 
 all: lib testexec
 
