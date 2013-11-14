@@ -24,11 +24,14 @@ TEST_EXEC = $(LIBNAME)_test
 
 CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++11
 
-all: lib unittest
+all: lib testexec
 
 lib: $(SO)
 
-unittest: $(TEST_EXEC)
+testexec: $(TEST_EXEC)
+
+test: $(TEST_EXEC)
+	LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) ./$(TEST_EXEC)
 
 clean:
 	rm -rf $(DEPS) $(OBJS)
