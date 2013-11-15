@@ -44,10 +44,12 @@ void FieldsTest::testSphere() {
 
   Registry &reg = Registry::getInstance();
 
-  Node n("Sphere");
+  Node n(Sphere::getTag());
   n.add<float>("radius", 1.0f);
   n.add<Vec3f>("center", {1, 0, 0});
   ScalarField::Ptr p = reg.get<ScalarField>(n);
+
+  CPPUNIT_ASSERT( reg.getName<Sphere>() == Sphere::getTag() );
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);

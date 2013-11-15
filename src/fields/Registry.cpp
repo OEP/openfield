@@ -14,11 +14,12 @@ Registry& Registry::getInstance() {
   return sInstance;
 }
 
-void Registry::registerField(const BaseField::Name& n, const BaseField::Factory f) {
+void Registry::registerField(const BaseField::Name& n, const std::string& typeid_name, const BaseField::Factory f) {
   if(mMap.count(n) == 1) {
     throw KeyError(n + ": already registered");
   }
   mMap[n] = f;
+  mReverseMap[typeid_name] = n;
 }
 
 void Registry::unregisterField(const BaseField::Name& n) {
