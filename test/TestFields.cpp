@@ -42,10 +42,12 @@ void FieldsTest::testSphere() {
   CPPUNIT_ASSERT( sphere->eval({0,-1,0}) == 0 );
   CPPUNIT_ASSERT( sphere->eval({0,0,-1}) == 0 );
 
+  Registry &reg = Registry::getInstance();
+
   Node n("Sphere");
   n.add<float>("radius", 1.0f);
   n.add<Vec3f>("center", {1, 0, 0});
-  ScalarField::Ptr p = Registry::get<ScalarField>(n);
+  ScalarField::Ptr p = reg.get<ScalarField>(n);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);

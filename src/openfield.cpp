@@ -3,11 +3,14 @@
 
 void openfield::initialize() {
   using namespace openfield::fields;
+  Registry &reg = Registry::getInstance();
 
-  Registry::registerField<Sphere>();
+  reg.registerField<Sphere>();
 }
 
 void openfield::uninitialize() {
   using namespace openfield::fields;
-  Registry::unregisterField<Sphere>();
+  Registry &reg = Registry::getInstance();
+  
+  reg.unregisterField<Sphere>();
 }
