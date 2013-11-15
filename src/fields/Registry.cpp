@@ -5,6 +5,15 @@
 using openfield::fields::Registry;
 using openfield::fields::BaseField;
 
+Registry::Registry():
+  mMap(), mReverseMap()
+{ }
+
+Registry& Registry::getInstance() {
+  static Registry sInstance;
+  return sInstance;
+}
+
 void Registry::registerField(const BaseField::Name& n, const BaseField::Factory f) {
   if(mMap.count(n) == 1) {
     throw KeyError(n + ": already registered");

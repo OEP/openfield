@@ -14,10 +14,7 @@ public:
   //! Registry::ReverseMap maps C++ names to field names.
   typedef std::map<std::string, BaseField::Name> ReverseMap;
 
-  static Registry& getInstance() {
-    static Registry instance;
-    return instance;
-  }
+  static Registry& getInstance();
 
   template <typename FieldT>
   void registerField() {
@@ -41,7 +38,7 @@ public:
   BaseField::Ptr create(const io::Node&) const;
 
 private:
-  Registry(): mMap(), mReverseMap() {}
+  Registry();
   Registry(const Registry&);
   Registry& operator=(const Registry&);
   
