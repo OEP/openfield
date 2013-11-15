@@ -9,19 +9,24 @@ using openfield::math::Vec3f;
 
 class FieldsTest : public CppUnit::TestCase {
   CPPUNIT_TEST_SUITE( FieldsTest );
+  CPPUNIT_TEST( testRegistry );
   CPPUNIT_TEST( testSphere );
   CPPUNIT_TEST_SUITE_END();
 
 public:
-  FieldsTest(): CppUnit::TestCase(), sphere() {}
+  FieldsTest():
+    CppUnit::TestCase(), sphere(), registry(Registry::getInstance())
+  { }
   
   void setUp();
   void tearDown();
 
   void testSphere();
+  void testRegistry();
 
 private:
   ScalarField::Ptr sphere;
+  Registry& registry;
 };
 
 void FieldsTest::setUp() {
@@ -33,6 +38,12 @@ void FieldsTest::tearDown() {
   openfield::uninitialize();
 }
 
+void FieldsTest::testRegistry() {
+  CPPUNIT_ASSERT( registry.getName<Sphere>() == Sphere::getTag() );
+  CPPUNIT_ASSERT_THROW( registry.getName<int>(), openfield::KeyError );
+  CPPUNIT_ASSERT_THROW( registry.create(Node("Not_Registered")), openfield::KeyError );
+}
+
 void FieldsTest::testSphere() {
   CPPUNIT_ASSERT( sphere->eval({0,0,0}) == 1 );
   CPPUNIT_ASSERT( sphere->eval({1,0,0}) == 0 );
@@ -42,14 +53,10 @@ void FieldsTest::testSphere() {
   CPPUNIT_ASSERT( sphere->eval({0,-1,0}) == 0 );
   CPPUNIT_ASSERT( sphere->eval({0,0,-1}) == 0 );
 
-  Registry &reg = Registry::getInstance();
-
   Node n(Sphere::getTag());
   n.add<float>("radius", 1.0f);
   n.add<Vec3f>("center", {1, 0, 0});
-  ScalarField::Ptr p = reg.get<ScalarField>(n);
-
-  CPPUNIT_ASSERT( reg.getName<Sphere>() == Sphere::getTag() );
+  ScalarField::Ptr p = registry.get<ScalarField>(n);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);
