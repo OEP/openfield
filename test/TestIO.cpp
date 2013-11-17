@@ -55,7 +55,6 @@ void IOTest::testXML() {
   std::string path = makeTemp();
   std::ofstream os(path);
   writer.write(os, root);
-  std::cout << path << std::endl;
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(IOTest);
