@@ -12,6 +12,8 @@ namespace io {
 class Node {
 public:
   typedef unsigned long long size_type;
+  typedef std::map<std::string, std::string> AttributeMap;
+  typedef AttributeMap::value_type AttributePair;
 
   //! Construct a node with given name.
   Node(const std::string&);
@@ -37,10 +39,13 @@ public:
   //! Non-const access to child
         Node* getChild(size_type i)       { markChild(i); return mChildren[i]; }
 
+  //! Const access to attribute map.
+  const AttributeMap& getAttributes() const { return mAttributes; }
+
   //! Retrieve an attribute, throwing openfield::AttributeError if none is found.
   template <typename T>
   T get(const std::string& name) const {
-    std::map<std::string, std::string>::const_iterator it = mAttributes.find(name);
+    AttributeMap::const_iterator it = mAttributes.find(name);
     if(it != mAttributes.end()) {
       markAttribute(name);
       return boost::lexical_cast<T>(it->second);
@@ -94,7 +99,7 @@ private:
 
   std::string mName;
   std::vector<Node*> mChildren;
-  std::map<std::string, std::string> mAttributes;
+  AttributeMap mAttributes;
   bool mRoot;
   mutable bool mReferenced;
   mutable std::set<std::string> mAttributesReferenced;

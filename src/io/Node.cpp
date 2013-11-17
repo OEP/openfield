@@ -43,9 +43,6 @@ Node* Node::addChild(const std::string& n) {
 }
 
 void Node::assertFullyReferenced() const {
-  using std::map;
-  using std::string;
-
   if(!mReferenced) {
     throw UnreferencedNodeError(mName);
   }
@@ -53,7 +50,7 @@ void Node::assertFullyReferenced() const {
   for(size_type i = 0; i < getChildrenCount(); ++i) {
     mChildren[i]->assertFullyReferenced();
   }
-  map<string, string>::const_iterator it = mAttributes.begin();
+  AttributeMap::const_iterator it = mAttributes.begin();
   while(it != mAttributes.end()) {
     assertAttributeReferenced(it->first);
     ++it;
