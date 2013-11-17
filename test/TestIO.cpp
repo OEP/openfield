@@ -1,6 +1,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <openfield/io/XMLWriter.h>
 #include <openfield/io/Node.h>
+#include <cstring>
 using openfield::io::XMLWriter;
 using openfield::io::Node;
 
