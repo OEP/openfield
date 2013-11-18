@@ -23,6 +23,7 @@ TEST_OBJS = $(TEST_CPPS:.cpp=.o)
 TEST_EXEC = $(LIBNAME)_test
 
 CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++0x
+LDFLAGS = -lexpat
 
 .PHONY: all lib testexec test
 
@@ -41,10 +42,10 @@ clean:
 	rm -f  $(SO) $(SO_LINKS)
 
 $(TEST_EXEC): $(TEST_OBJS) $(SO)
-	$(CXX) -o $@ $(TEST_OBJS) -lcppunit -L . -l$(LIBNAME)
+	$(CXX) -o $@ $(TEST_OBJS) -lcppunit -L . -l$(LIBNAME) $(LDFLAGS)
 
 $(SO): $(OBJS)
-	$(CXX) -shared -Wl,-soname,$(SO_MAJOR) -o $(SO) $(OBJS)
+	$(CXX) -shared -Wl,-soname,$(SO_MAJOR) -o $(SO) $(OBJS) $(LDFLAGS)
 	@for x in $(SO_LINKS); do echo making link $$x; ln -sf $(SO) $$x; done
 
 $(OBJS) $(TEST_OBJS): %.o: %.cpp %.d

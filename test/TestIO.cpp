@@ -1,8 +1,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <openfield/io/XMLWriter.h>
+#include <openfield/io/XMLReader.h>
 #include <openfield/io/Node.h>
 #include <cstring>
 using openfield::io::XMLWriter;
+using openfield::io::XMLReader;
 using openfield::io::Node;
 
 class IOTest : public CppUnit::TestCase {
@@ -56,6 +58,12 @@ void IOTest::testXML() {
   std::string path = makeTemp();
   std::ofstream os(path);
   writer.write(os, root);
+  os.close();
+
+  std::ifstream is(path);
+  XMLReader reader;
+  Node in("root");
+  reader.read(is, in);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(IOTest);
