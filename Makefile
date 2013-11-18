@@ -1,11 +1,14 @@
 INC = inc
 SRC = src
+DOC = doc
 TEST = test
 LIBNAME = openfield
 MAJOR_VERSION = 1
 MINOR_VERSION = 0
 PATCH_VERSION = 0
 MKTEMP = mktemp
+DOXYGEN = doxygen
+DOXYFILE = Doxyfile
 SED = sed -i'' -e
 
 SO_BASE = lib$(LIBNAME).so
@@ -15,6 +18,7 @@ SO_PATCH = $(SO_MINOR).$(PATCH_VERSION)
 SO_LINKS = $(SO_MAJOR) $(SO_MINOR) $(SO_BASE)
 SO = $(SO_PATCH)
 CPPS = $(shell find $(SRC) -name *.cpp)
+HDRS = $(shell find $(INC) -name *.h)
 DEPS = $(CPPS:.cpp=.d)
 OBJS = $(CPPS:.cpp=.o)
 TEST_CPPS = $(shell find $(TEST) -name *.cpp)
@@ -40,6 +44,9 @@ clean:
 	rm -rf $(DEPS) $(OBJS)
 	rm -rf $(TEST_DEPS) $(TEST_OBJS) $(TEST_EXEC)
 	rm -f  $(SO) $(SO_LINKS)
+
+$(DOC): $(CPPS) $(HDRS) $(DOXYFILE)
+	$(DOXYGEN) $(DOXYFILE)
 
 $(TEST_EXEC): $(TEST_OBJS) $(SO)
 	$(CXX) -o $@ $(TEST_OBJS) -lcppunit -L . -l$(LIBNAME) $(LDFLAGS)
