@@ -41,6 +41,7 @@ test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) ./$(TEST_EXEC)
 
 clean:
+	rm -rf $(DOC)
 	rm -rf $(DEPS) $(OBJS)
 	rm -rf $(TEST_DEPS) $(TEST_OBJS) $(TEST_EXEC)
 	rm -f  $(SO) $(SO_LINKS)
