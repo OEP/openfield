@@ -20,6 +20,9 @@ public:
   //! Pair type used by attribute map.
   typedef AttributeMap::value_type AttributePair;
 
+  //! Construct a node with no name
+  Node();
+
   //! Construct a node with given name.
   Node(const std::string&);
 
@@ -37,6 +40,9 @@ public:
 
   //! Get name of node
   const std::string& getName() const { return mName; }
+
+  //! Set name of node
+  void setName(const std::string& name) { mName = name; }
 
   //! Const access to child
   const Node* getChild(size_type i) const { markChild(i); return mChildren[i]; }
@@ -100,8 +106,6 @@ public:
   bool operator==(const Node&) const;
 
 private:
-  Node(); // disabled
-
   //! Private child node constructor
   Node(const std::string&, bool);
 

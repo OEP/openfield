@@ -2,6 +2,10 @@
 
 using openfield::io::Node;
 
+Node::Node(): 
+  mName(), mChildren(), mAttributes(), mRoot(true), mReferenced(true), mAttributesReferenced()
+  {}
+
 Node::Node(const std::string& n): 
   mName(n), mChildren(), mAttributes(), mRoot(true), mReferenced(true), mAttributesReferenced()
   {}
