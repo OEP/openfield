@@ -6,6 +6,8 @@ LIBNAME = openfield
 MAJOR_VERSION = 1
 MINOR_VERSION = 0
 PATCH_VERSION = 0
+GDB = gdb
+VALGRIND = valgrind
 MKTEMP = mktemp
 DOXYGEN = doxygen
 DOXYFILE = Doxyfile
@@ -36,6 +38,12 @@ all: lib testexec
 lib: $(SO)
 
 testexec: $(TEST_EXEC)
+
+vg: $(TEST_EXEC)
+	LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) $(VALGRIND) --error-exitcode=1 ./$(TEST_EXEC)
+
+debug: $(TEST_EXEC)
+	LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) $(GDB) ./$(TEST_EXEC)
 
 test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=.:$(LD_LIBRARY_PATH) ./$(TEST_EXEC)
