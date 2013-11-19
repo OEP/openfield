@@ -9,8 +9,13 @@ namespace fields {
 
 class BaseField {
 public:
+  //! Type used for field names in registry.
   typedef std::string Name;
+
+  //! Dynamic pointer type for BaseField
   typedef std::shared_ptr<BaseField> Ptr;
+
+  //! Function pointer which generates a field from a io::Node
   typedef BaseField::Ptr(*Factory)(const io::Node&);
 
   virtual ~BaseField() {}
@@ -20,8 +25,13 @@ private:
 template <typename EvalT, typename GradT>
 class Field : public BaseField {
 public:
+  //! Dynamic field type for template instantiated type.
   typedef std::shared_ptr<Field<EvalT, GradT> > Ptr;
+
+  //! Evaluate the field at the given point.
   virtual EvalT eval(const Vec3f&) const = 0;
+
+  //! Evaluate the gradient of the field at the given point.
   virtual GradT grad(const Vec3f&) const = 0;
 private:
 };

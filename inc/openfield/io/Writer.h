@@ -8,6 +8,8 @@ class Node;
 class Writer {
 public:
   virtual ~Writer() {}
+
+  //! Write the given io::Node to the stream.
   virtual void write(std::ostream&, const Node&) const = 0;  
 };
 

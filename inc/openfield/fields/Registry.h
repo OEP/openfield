@@ -7,13 +7,11 @@ namespace openfield {
 namespace fields {
 
 class Registry {
-public:
-  //! Registry::Map maps field names to their factory functions
+private:
   typedef std::map<BaseField::Name, BaseField::Factory> Map;
-
-  //! Registry::ReverseMap maps C++ names to field names.
   typedef std::map<std::string, BaseField::Name> ReverseMap;
 
+public:
   //! Get an instance of the Registry singleton
   static Registry& getInstance();
 
@@ -29,7 +27,11 @@ public:
     Registry::getInstance().unregisterField(FieldT::getTag());
   }
 
-  //! Construct the field described by given node and cast.
+  /*! Construct the field described by given node and cast.
+   *
+   * \throws KeyError if a field could not be looked up in the registry.
+   * \throws TypeError if the result is not of the requested type.
+   */
   template <typename FieldT>
   typename FieldT::Ptr get(const io::Node& n) const {
     typename FieldT::Ptr p = std::dynamic_pointer_cast<FieldT>(Registry::getInstance().create(n));
@@ -39,7 +41,10 @@ public:
     return p;
   }
 
-  //! Get the name corresponding to the given type.
+  /*! Get the name corresponding to the given type.
+   *
+   * \throws KeyError if the field type is not registered.
+   */
   template <typename FieldT>
   std::string getName() const {
     ReverseMap::const_iterator it = mReverseMap.find(typeid(FieldT).name());
@@ -48,7 +53,11 @@ public:
     }
     return it->second;
   }
-  
+
+  /*! Create a field based on an io::Node.
+   *
+   * \throws KeyError if a field could not be looked up
+   */
   BaseField::Ptr create(const io::Node&) const;
 
 private:

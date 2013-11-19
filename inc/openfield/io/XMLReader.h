@@ -10,6 +10,8 @@ class XMLReader {
 public:
   XMLReader();
   virtual ~XMLReader();
+
+  //! Read XML document from input stream into given node 
   virtual void read(std::istream&, Node&) const;
 private:
   typedef std::map<std::string, std::string> AttributeMap;

@@ -11,8 +11,13 @@ namespace io {
 
 class Node {
 public:
+  //! Size type for the children container
   typedef unsigned long long size_type;
+
+  //! Map type used for storing attributes.
   typedef std::map<std::string, std::string> AttributeMap;
+
+  //! Pair type used by attribute map.
   typedef AttributeMap::value_type AttributePair;
 
   //! Construct a node with given name.
@@ -53,7 +58,7 @@ public:
     throw AttributeError(mName + "." + name);
   }
   
-  //! Retrieve an attribute.
+  //! Retrieve an attribute, using default value if not found.
   template <typename T>
   T get(const std::string& name, const T& def) const {
     try {
