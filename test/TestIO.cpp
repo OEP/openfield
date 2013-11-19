@@ -64,6 +64,7 @@ void IOTest::testXML() {
   XMLReader reader;
   Node in("root");
   reader.read(is, in);
+  CPPUNIT_ASSERT(in == root);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(IOTest);
