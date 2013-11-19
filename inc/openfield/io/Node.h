@@ -96,6 +96,9 @@ public:
   //! Assert that all nodes and attributes are referenced.
   void assertFullyReferenced() const;
 
+  //! Node equality
+  bool operator==(const Node&) const;
+
 private:
   Node(); // disabled
 

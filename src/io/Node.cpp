@@ -85,3 +85,16 @@ void Node::markAttribute(const std::string& name) const {
   }
   mAttributesReferenced.insert(name);
 }
+
+bool Node::operator==(const Node& n) const {
+  if(getName() != n.getName() || getAttributes() != n.getAttributes()
+       || getChildrenCount() != n.getChildrenCount()) {
+    return false;
+  }
+  for(unsigned i = 0; i < getChildrenCount(); ++i) {
+    if(!(*getChild(i) == *n.getChild(i))) {
+      return false;
+    }
+  }
+  return true;
+}
