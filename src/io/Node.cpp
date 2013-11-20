@@ -29,6 +29,10 @@ Node& Node::operator=(const Node& n) {
   mAttributes = n.mAttributes;
   mReferenced = n.mReferenced;
   mAttributesReferenced = n.mAttributesReferenced;
+  for(size_type i = 0; i < getChildrenCount(); ++i) {
+    delete mChildren[i];
+  }
+  mChildren.clear();
   for(size_type i = 0; i < n.getChildrenCount(); ++i) {
     mChildren.push_back(new Node(*n.getChild(i)));
   }
