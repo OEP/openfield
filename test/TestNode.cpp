@@ -6,6 +6,7 @@ class NodeTest : public CppUnit::TestCase {
   CPPUNIT_TEST( testAddChild );
   CPPUNIT_TEST( testErrors );
   CPPUNIT_TEST( testStandardForm );
+  CPPUNIT_TEST( testAssignment );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -18,6 +19,7 @@ public:
   void testAddChild();
   void testErrors();
   void testStandardForm();
+  void testAssignment();
 
 private:
   NodeTest(const NodeTest&);
@@ -104,6 +106,13 @@ void NodeTest::testErrors() {
   CPPUNIT_ASSERT_NO_THROW(t.get<int>("test"));
   CPPUNIT_ASSERT_NO_THROW(t.get<int>("test", 1));
   CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
+}
+
+void NodeTest::testAssignment() {
+  Node t, s;
+  t.addChild(""); // check if child gets cleaned up after assignment
+  t = s;
+  CPPUNIT_ASSERT(s == t);
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(NodeTest);
