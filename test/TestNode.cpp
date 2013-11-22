@@ -1,7 +1,9 @@
-#include <cppunit/extensions/HelperMacros.h>
 #include <openfield/io/Node.h>
+#include "BaseTest.h"
+
 using openfield::io::Node;
-class NodeTest : public CppUnit::TestCase {
+
+class NodeTest : public BaseTest {
   CPPUNIT_TEST_SUITE( NodeTest );
   CPPUNIT_TEST( testAddChild );
   CPPUNIT_TEST( testErrors );
@@ -9,8 +11,9 @@ class NodeTest : public CppUnit::TestCase {
   CPPUNIT_TEST_SUITE_END();
 
 public:
-  NodeTest(): CppUnit::TestCase(),
-    root("Root") {}
+  NodeTest():
+    BaseTest(), root("Root")
+  { }
   
   void setUp();
   void tearDown();

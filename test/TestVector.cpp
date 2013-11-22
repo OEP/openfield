@@ -1,13 +1,13 @@
-#include <cppunit/extensions/HelperMacros.h>
 #include <openfield/Types.h>
+#include "BaseTest.h"
 
-class VectorTest : public CppUnit::TestCase {
+class VectorTest : public BaseTest {
   CPPUNIT_TEST_SUITE( VectorTest );
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST_SUITE_END();
 
 public:
-  VectorTest(): CppUnit::TestCase(),
+  VectorTest(): BaseTest(),
     x(), y(), z(), zero(), ones() {}
 
   void setUp();

@@ -1,13 +1,13 @@
-#include <cppunit/extensions/HelperMacros.h>
 #include <openfield/openfield.h>
 #include <openfield/fields/fields.h>
 #include <openfield/io/Node.h>
+#include "BaseTest.h"
 
 using namespace openfield::fields;
 using openfield::io::Node;
 using openfield::math::Vec3f;
 
-class FieldsTest : public CppUnit::TestCase {
+class FieldsTest : public BaseTest {
   CPPUNIT_TEST_SUITE( FieldsTest );
   CPPUNIT_TEST( testRegistry );
   CPPUNIT_TEST( testSphere );
@@ -15,7 +15,7 @@ class FieldsTest : public CppUnit::TestCase {
 
 public:
   FieldsTest():
-    CppUnit::TestCase(), sphere(), registry(Registry::getInstance())
+    BaseTest(), sphere(), registry(Registry::getInstance())
   { }
   
   void setUp();
