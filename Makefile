@@ -8,10 +8,8 @@ MINOR_VERSION = 0
 PATCH_VERSION = 0
 GDB = gdb
 VALGRIND = valgrind
-MKTEMP = mktemp
 DOXYGEN = doxygen
 DOXYFILE = Doxyfile
-SED = sed -i'' -e
 
 SO_BASE = lib$(LIBNAME).so
 SO_MAJOR = $(SO_BASE).$(MAJOR_VERSION)
@@ -68,10 +66,6 @@ $(OBJS) $(TEST_OBJS): %.o: %.cpp %.d
 	$(CXX) $(CXXFLAGS) -c -fPIC $< -o $@
 
 $(DEPS) $(TEST_DEPS): %.d: %.cpp
-	$(eval TMP := $(shell $(MKTEMP)))
-	@echo generating $@
-	@$(CXX) $(CXXFLAGS) -MM $< > $(TMP)
-	@$(SED) 's,\($*\)\.o[ :]*,\1.o $@ : ,g' $(TMP)
-	@mv $(TMP) $@
+	$(CXX) $(CXXFLAGS) -MM -MT "$*.o $*.d" $< > $@
 
 include $(DEPS) $(TEST_DEPS)
