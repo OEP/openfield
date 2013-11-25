@@ -5,6 +5,7 @@ class VectorTest : public BaseTest {
   CPPUNIT_TEST_SUITE( VectorTest );
   CPPUNIT_TEST( testConstructor );
   CPPUNIT_TEST( testStream );
+  CPPUNIT_TEST( testLexicalCast );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -16,6 +17,7 @@ public:
 
   void testConstructor();
   void testStream();
+  void testLexicalCast();
 
 private:
   openfield::Vec3f x, y, z, zero, ones;
@@ -48,6 +50,17 @@ void VectorTest::testStream() {
   std::stringstream ss;
   ss << in;
   ss >> out;
+  CPPUNIT_ASSERT( norm2(in-out) < 1e-6 );
+}
+
+void VectorTest::testLexicalCast() {
+  using openfield::Vec3f;
+  
+  std::string buffer;
+  Vec3f in = {1, 2, 3}, out;
+  CPPUNIT_ASSERT_NO_THROW( buffer = boost::lexical_cast<std::string>(in) );
+  CPPUNIT_ASSERT( buffer == "1 2 3" );
+  CPPUNIT_ASSERT_NO_THROW( out = boost::lexical_cast<Vec3f>(in) );
   CPPUNIT_ASSERT( norm2(in-out) < 1e-6 );
 }
 
