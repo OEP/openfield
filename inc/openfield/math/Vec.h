@@ -172,9 +172,13 @@ std::ostream& operator<< (std::ostream& os, const Vec<N, T> &v) {
 template <int N, typename T>
 std::istream& operator>> (std::istream& is, Vec<N, T> &v) {
   std::string buffer;
+  char ws;
   for(size_t i = 0; i < N; ++i) {
     is >> buffer;
     v[i] = boost::lexical_cast<T>(buffer);
+    if((is.flags() & std::ios_base::skipws) == 0 && i < N-1) {
+      is >> ws;
+    }
   }
   return is;
 }
