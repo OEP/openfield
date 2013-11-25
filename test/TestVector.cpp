@@ -4,6 +4,7 @@
 class VectorTest : public BaseTest {
   CPPUNIT_TEST_SUITE( VectorTest );
   CPPUNIT_TEST( testConstructor );
+  CPPUNIT_TEST( testStream );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -14,6 +15,7 @@ public:
   void tearDown();
 
   void testConstructor();
+  void testStream();
 
 private:
   openfield::Vec3f x, y, z, zero, ones;
@@ -39,5 +41,14 @@ void VectorTest::testConstructor() {
   CPPUNIT_ASSERT(z[0] == 0); CPPUNIT_ASSERT(z[1] == 0); CPPUNIT_ASSERT(z[2] == 1); 
 }
 
+void VectorTest::testStream() {
+  using openfield::Vec3f;
+  
+  Vec3f in = {1, 2, 3}, out;
+  std::stringstream ss;
+  ss << in;
+  ss >> out;
+  CPPUNIT_ASSERT( norm2(in-out) < 1e-6 );
+}
 
 CPPUNIT_TEST_SUITE_REGISTRATION(VectorTest);
