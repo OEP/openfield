@@ -1,4 +1,5 @@
 #include <openfield/io/Node.h>
+#include <openfield/math/Vec.h>
 #include "BaseTest.h"
 
 using openfield::io::Node;
@@ -8,6 +9,7 @@ class NodeTest : public BaseTest {
   CPPUNIT_TEST( testAddChild );
   CPPUNIT_TEST( testErrors );
   CPPUNIT_TEST( testStandardForm );
+  CPPUNIT_TEST( testAddVec3f );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -21,6 +23,7 @@ public:
   void testAddChild();
   void testErrors();
   void testStandardForm();
+  void testAddVec3f();
 
 private:
   NodeTest(const NodeTest&);
@@ -105,8 +108,20 @@ void NodeTest::testErrors() {
 
   // get() causes attributes to become referenced
   CPPUNIT_ASSERT_NO_THROW(t.get<int>("test"));
+  CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
   CPPUNIT_ASSERT_NO_THROW(t.get<int>("test", 1));
   CPPUNIT_ASSERT_NO_THROW(t.assertFullyReferenced());
+}
+
+void NodeTest::testAddVec3f() {
+  using openfield::math::Vec3f;
+
+  Node node;
+  Vec3f value({1, 2, 3});
+  Vec3f out;
+  CPPUNIT_ASSERT_NO_THROW( node.add("vector", value) );
+  CPPUNIT_ASSERT_NO_THROW( out = node.get<Vec3f>("vector") );
+  CPPUNIT_ASSERT( norm2(out - value) < 1e-6 );
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(NodeTest);
