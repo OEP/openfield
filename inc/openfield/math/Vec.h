@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <cassert>
 #include <cmath>
+#include <boost/lexical_cast.hpp>
 
 namespace openfield {
 namespace math {
@@ -159,14 +160,23 @@ void operator-= (Vec<N, T> &u, const Vec<N, T> &v) {
 
 template <int N, typename T>
 std::ostream& operator<< (std::ostream& os, const Vec<N, T> &v) {
-  os << "<";
   for(size_t i = 0; i < N; ++i) {
     os << v[i];
     if(i != N-1) {
-      os << ", ";
+      os << " ";
     }
   }
-  return os << ">";
+  return os;
+}
+
+template <int N, typename T>
+std::istream& operator>> (std::istream& is, Vec<N, T> &v) {
+  std::string buffer;
+  for(size_t i = 0; i < N; ++i) {
+    is >> buffer;
+    v[i] = boost::lexical_cast<T>(buffer);
+  }
+  return is;
 }
 
 template <int N, typename T>
