@@ -31,7 +31,7 @@ private:
 
 void FieldsTest::setUp() {
   openfield::initialize();
-  sphere = Sphere::create({0, 0, 0}, 1);
+  sphere = Sphere::create({0, 1, 0}, 1);
 }
 
 void FieldsTest::tearDown() {
@@ -45,26 +45,25 @@ void FieldsTest::testRegistry() {
 }
 
 void FieldsTest::testSphere() {
-  CPPUNIT_ASSERT( sphere->eval({0,0,0}) == 1 );
-  CPPUNIT_ASSERT( sphere->eval({1,0,0}) == 0 );
-  CPPUNIT_ASSERT( sphere->eval({0,1,0}) == 0 );
-  CPPUNIT_ASSERT( sphere->eval({0,0,1}) == 0 );
-  CPPUNIT_ASSERT( sphere->eval({-1,0,0}) == 0 );
-  CPPUNIT_ASSERT( sphere->eval({0,-1,0}) == 0 );
-  CPPUNIT_ASSERT( sphere->eval({0,0,-1}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({0,1,0}) == 1 );
+  CPPUNIT_ASSERT( sphere->eval({1,1,0}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({0,2,0}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({0,1,1}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({-1,1,0}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({0,0,0}) == 0 );
+  CPPUNIT_ASSERT( sphere->eval({0,1,-1}) == 0 );
 
   Node n(Sphere::getTag());
-  n.add<float>("radius", 1.0f);
-  n.add<Vec3f>("center", {1, 0, 0});
+  sphere->store(n);
   ScalarField::Ptr p = registry.get<ScalarField>(n);
-
-  CPPUNIT_ASSERT( p->eval({1,0,0}) == 1 );
-  CPPUNIT_ASSERT( p->eval({2,0,0}) == 0 );
+  
+  CPPUNIT_ASSERT( p->eval({0,1,0}) == 1 );
   CPPUNIT_ASSERT( p->eval({1,1,0}) == 0 );
-  CPPUNIT_ASSERT( p->eval({1,0,1}) == 0 );
+  CPPUNIT_ASSERT( p->eval({0,2,0}) == 0 );
+  CPPUNIT_ASSERT( p->eval({0,1,1}) == 0 );
+  CPPUNIT_ASSERT( p->eval({-1,1,0}) == 0 );
   CPPUNIT_ASSERT( p->eval({0,0,0}) == 0 );
-  CPPUNIT_ASSERT( p->eval({1,-1,0}) == 0 );
-  CPPUNIT_ASSERT( p->eval({1,0,-1}) == 0 );
+  CPPUNIT_ASSERT( p->eval({0,1,-1}) == 0 );
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);

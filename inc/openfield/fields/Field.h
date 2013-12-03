@@ -19,6 +19,8 @@ public:
   typedef BaseField::Ptr(*Factory)(const io::Node&);
 
   virtual ~BaseField() {}
+
+  virtual void store(io::Node&) const = 0;
 private:
 };
 
