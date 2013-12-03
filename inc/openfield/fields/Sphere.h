@@ -11,7 +11,7 @@ public:
 
   //! Factory function to create a sphere from io::Node
   static BaseField::Ptr factory(const io::Node& n) {
-    return Sphere::create({0, 0, 0}, n.get<float>("radius"));
+    return Sphere::create(n.get<Vec3f>("center"), n.get<float>("radius"));
   }
 
   //! Create new instance of a sphere.

@@ -57,6 +57,14 @@ void FieldsTest::testSphere() {
   n.add<float>("radius", 1.0f);
   n.add<Vec3f>("center", {1, 0, 0});
   ScalarField::Ptr p = registry.get<ScalarField>(n);
+
+  CPPUNIT_ASSERT( p->eval({1,0,0}) == 1 );
+  CPPUNIT_ASSERT( p->eval({2,0,0}) == 0 );
+  CPPUNIT_ASSERT( p->eval({1,1,0}) == 0 );
+  CPPUNIT_ASSERT( p->eval({1,0,1}) == 0 );
+  CPPUNIT_ASSERT( p->eval({0,0,0}) == 0 );
+  CPPUNIT_ASSERT( p->eval({1,-1,0}) == 0 );
+  CPPUNIT_ASSERT( p->eval({1,0,-1}) == 0 );
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);
