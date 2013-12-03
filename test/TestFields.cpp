@@ -56,7 +56,8 @@ void FieldsTest::testSphere() {
   Node n(Sphere::getTag());
   sphere->store(n);
   ScalarField::Ptr p = registry.get<ScalarField>(n);
-  
+
+  CPPUNIT_ASSERT( n.getName() == "Sphere" );
   CPPUNIT_ASSERT( p->eval({0,1,0}) == 1 );
   CPPUNIT_ASSERT( p->eval({1,1,0}) == 0 );
   CPPUNIT_ASSERT( p->eval({0,2,0}) == 0 );

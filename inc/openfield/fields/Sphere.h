@@ -1,5 +1,4 @@
 #include <openfield/fields/Field.h>
-#include <openfield/io/Node.h>
 
 namespace openfield {
 namespace fields {
@@ -10,9 +9,7 @@ public:
   static std::string getTag() { return "Sphere"; }
 
   //! Factory function to create a sphere from io::Node
-  static BaseField::Ptr factory(const io::Node& n) {
-    return Sphere::create(n.get<Vec3f>("center"), n.get<float>("radius"));
-  }
+  static BaseField::Ptr factory(const io::Node&);
 
   //! Create new instance of a sphere.
   static ScalarField::Ptr create(const Vec3f& center, float radius) {
@@ -26,12 +23,12 @@ public:
   Vec3f grad(const Vec3f& p) const { return unit(mCenter - p); }
 
   //! Store a Sphere into a node.
-  void store(io::Node& n) const { n.add("center", mCenter); n.add("radius", mRadius); }
+  void store(io::Node& n) const;
 private:
   Sphere();
   Sphere(const Vec3f& center, float radius):
     mCenter(center), mRadius(radius)
-    {}
+  { }
 
   Vec3f mCenter;
   float mRadius;
