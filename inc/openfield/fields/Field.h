@@ -20,6 +20,7 @@ public:
 
   virtual ~BaseField() {}
 
+  //! Store a field's data in an io::Node
   virtual void store(io::Node&) const = 0;
 private:
 };
