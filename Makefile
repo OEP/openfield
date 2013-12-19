@@ -29,7 +29,7 @@ TEST_EXEC = $(LIBNAME)_test
 CXXFLAGS = -I$(INC) -g -Wall -Wextra -Weffc++ -std=c++0x
 LDFLAGS = -lexpat
 
-.PHONY: all lib testexec test
+.PHONY: all lib testexec test clean
 
 all: lib testexec
 
@@ -68,4 +68,4 @@ $(OBJS) $(TEST_OBJS): %.o: %.cpp %.d
 $(DEPS) $(TEST_DEPS): %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -MM -MT "$*.o $*.d" $< > $@
 
-include $(DEPS) $(TEST_DEPS)
+-include $(DEPS) $(TEST_DEPS)
