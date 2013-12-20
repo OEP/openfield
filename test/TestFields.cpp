@@ -1,6 +1,7 @@
 #include <openfield/openfield.h>
 #include <openfield/fields/fields.h>
 #include <openfield/io/Node.h>
+#include <openfield/fields/StoreVisitor.h>
 #include "BaseTest.h"
 
 using namespace openfield::fields;
@@ -53,8 +54,9 @@ void FieldsTest::testSphere() {
   CPPUNIT_ASSERT( sphere->eval({0,0,0}) == 0 );
   CPPUNIT_ASSERT( sphere->eval({0,1,-1}) == 0 );
 
-  Node n(Sphere::getTag());
-  sphere->store(n);
+  StoreVisitor visitor;
+  sphere->dispatch(visitor);
+  const Node& n = *visitor.getRoot().getChild(0);
   ScalarField::Ptr p = registry.get<ScalarField>(n);
 
   CPPUNIT_ASSERT( n.getName() == "Sphere" );

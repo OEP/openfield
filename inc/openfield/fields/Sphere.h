@@ -22,8 +22,15 @@ public:
   //! Evaluate the gradient of the sphere at the given point.
   Vec3f grad(const Vec3f& p) const { return unit(mCenter - p); }
 
-  //! Store a Sphere into a node.
-  void store(io::Node& n) const;
+  //! Accept a visitor 
+  void accept(Visitor&);
+
+  //! Get radius of sphere.
+  float getRadius() const { return mRadius; }
+
+  //! Get radius of sphere.
+  const Vec3f& getCenter() const { return mCenter; }
+
 private:
   Sphere();
   Sphere(const Vec3f& center, float radius):

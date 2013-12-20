@@ -36,7 +36,7 @@ public:
   ~Node();
 
   //! Add a child.
-  Node* addChild(const std::string&);
+  Node* addChild(const std::string& name="");
 
   //! Get name of node
   const std::string& getName() const { return mName; }

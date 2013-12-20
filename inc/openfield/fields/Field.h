@@ -7,6 +7,8 @@ namespace openfield {
 namespace io { class Node; }
 namespace fields {
 
+class Visitor;
+
 class BaseField {
 public:
   //! Type used for field names in registry.
@@ -20,9 +22,13 @@ public:
 
   virtual ~BaseField() {}
 
-  //! Store a field's data in an io::Node
-  virtual void store(io::Node&) const = 0;
+  //! Dispatch a visitor on this field
+  void dispatch(Visitor&);
+
 private:
+  //! Accept a visitor.
+  virtual void accept(Visitor&) = 0;
+
 };
 
 template <typename EvalT, typename GradT>
