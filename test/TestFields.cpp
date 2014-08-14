@@ -12,6 +12,7 @@ class FieldsTest : public BaseTest {
   CPPUNIT_TEST_SUITE( FieldsTest );
   CPPUNIT_TEST( testRegistry );
   CPPUNIT_TEST( testSphere );
+  CPPUNIT_TEST( testPlus );
   CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -23,6 +24,7 @@ public:
   void tearDown();
 
   void testSphere();
+  void testPlus();
   void testRegistry();
 
 private:
@@ -67,6 +69,19 @@ void FieldsTest::testSphere() {
   CPPUNIT_ASSERT( p->eval({-1,1,0}) == 0 );
   CPPUNIT_ASSERT( p->eval({0,0,0}) == 0 );
   CPPUNIT_ASSERT( p->eval({0,1,-1}) == 0 );
+}
+
+void FieldsTest::testPlus() {
+  ScalarField::Ptr plus = sphere + sphere;
+  CPPUNIT_ASSERT( plus->eval({0, 1, 0}) == 2 );
+
+  StoreVisitor visitor;
+  plus->dispatch(visitor);
+  const Node& n = *visitor.getRoot().getChild(0);
+  ScalarField::Ptr p = registry.get<ScalarField>(n);
+
+  CPPUNIT_ASSERT( n.getName() == "ScalarPlus" );
+  CPPUNIT_ASSERT( p->eval({0, 1, 0}) == 2 );
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FieldsTest);
