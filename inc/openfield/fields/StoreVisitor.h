@@ -20,6 +20,8 @@ public:
 
   void visitSphere(Sphere&);
 
+  void visitScalarPlus(ScalarPlus&);
+
 private:
   io::Node mRoot;
   std::list<io::Node*> mStack;

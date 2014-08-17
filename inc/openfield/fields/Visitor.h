@@ -23,8 +23,10 @@ public:
    * and only if Visitor::enter() has been called on it.
    */
   virtual void exit(BaseField&) {}
-  
+
   virtual void visitSphere(Sphere&) = 0;
+
+  virtual void visitScalarPlus(ScalarPlus&) = 0;
 };
 
 } // namespace fields

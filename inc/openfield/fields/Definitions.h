@@ -5,3 +5,4 @@
  */
 
 #include <openfield/fields/Sphere.h>
+#include <openfield/fields/Plus.h>

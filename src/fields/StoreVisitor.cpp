@@ -29,3 +29,10 @@ void StoreVisitor::visitSphere(Sphere& s) {
   top().add("radius", s.getRadius());
   top().add("center", s.getCenter());
 }
+
+void StoreVisitor::visitScalarPlus(ScalarPlus& s) {
+  Registry& registry = Registry::getInstance();
+  top().setName(registry.getName<ScalarPlus>());
+  s.getLhs()->dispatch(*this);
+  s.getRhs()->dispatch(*this);
+}
